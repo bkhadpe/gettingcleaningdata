@@ -1,5 +1,7 @@
 # Read all the files
 
+library(Hmisc)
+
 subjectTest <- read.table("subject_test.txt")
 subjectTrain <- read.table("subject_train.txt")
 
@@ -40,3 +42,12 @@ mergedSd <- apply(mergedAll,2,sd)
 mergedAll$Activity <- factor(mergedAll$Activity, levels = as.vector(activityLabels$V1), labels = as.vector(activityLabels$V2))
 
 # 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+colna <- colnames(mergedAll)
+colna <- colna[-1]
+colna <- colna[-1]
+tidy <- summarize(mergedAll[colna],mergedAll[c('Subject','Activity')],colMeans)
+
+write.table(tidy,file="tidyDataSet.txt",row.names=FALSE)
+
+# also writing as a csv file with comma as a seperator for verification
+write.table(tidy,file="tidyDataSet.csv",row.names=FALSE,sep=",")
